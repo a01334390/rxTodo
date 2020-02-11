@@ -7,27 +7,80 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     @IBOutlet weak var prioritySegmentedControl: UISegmentedControl!
     @IBOutlet weak var tableView: UITableView!
     
+    //RxSwift
+    let disposeBag = DisposeBag()
+    private var tasks = BehaviorRelay<[Task]>(value: [])
+    private var filteredTasks = [Task]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        self.navigationController?.navigationBar.prefersLargeTitles = true
     }
 
     
     // MARK - Table View Controllers
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return filteredTasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskTableViewCell",for: indexPath)
+        cell.textLabel?.text = self.filteredTasks[indexPath.row].title
         return  cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let naviC = segue.destination as? UINavigationController,
+            let addTVC = naviC.viewControllers.first as? AddTaskViewController else {
+                fatalError()
+        }
+        
+        addTVC.taskSubjectObservable.subscribe(onNext: { [unowned self] task in
+            
+            let priority = Priority(rawValue: self.prioritySegmentedControl.selectedSegmentIndex - 1)
+            
+            var existingTaks = self.tasks.value
+            existingTaks.append(task)
+            self.tasks.accept(existingTaks)
+            
+            self.taskFiltering(by: priority)
+            
+        }).disposed(by: disposeBag)
+    }
+    
+    private func updateTableView () {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
+    @IBAction func priorityValueChanged(_ sender: Any) {
+        let priority = Priority(rawValue: self.prioritySegmentedControl.selectedSegmentIndex - 1)
+        taskFiltering(by: priority)
+    }
+    
+    private func taskFiltering(by priority: Priority?) {
+        if priority == nil {
+            self.filteredTasks = self.tasks.value
+            self.updateTableView()
+        } else {
+            self.tasks.map { tasks in
+                return tasks.filter { $0.priority == priority!}
+            }.subscribe(onNext: { [weak self] tasks in
+                self!.filteredTasks = tasks
+                self!.updateTableView()
+            }).disposed(by: disposeBag)
+        }
     }
 
 }
