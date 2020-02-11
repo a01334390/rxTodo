@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -81,6 +81,7 @@
 		BD3BEA2623F3483F0086EA43 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				BD3BEA2923F34D7B0086EA43 /* AddTaskViewController.swift */,
 				BD3BEA1623F3474D0086EA43 /* ViewController.swift */,
 			);
 			path = Controllers;
@@ -99,7 +100,6 @@
 			children = (
 				BD3BEA1D23F347500086EA43 /* LaunchScreen.storyboard */,
 				BD3BEA1823F3474D0086EA43 /* Main.storyboard */,
-				BD3BEA2923F34D7B0086EA43 /* AddTaskViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -118,7 +118,6 @@
 				C02B4BA6DCCAC860D77E531A /* Pods-rxTodo.debug.xcconfig */,
 				79737FE371046602A60A10E1 /* Pods-rxTodo.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
