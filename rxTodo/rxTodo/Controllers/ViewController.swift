@@ -18,6 +18,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //RxSwift
     let disposeBag = DisposeBag()
     private var tasks = BehaviorRelay<[Task]>(value: [])
+    private var filteredTasks = [Task]()
     
     
     override func viewDidLoad() {
@@ -43,7 +44,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                 fatalError()
         }
         
-        addTVC.taskSubjectObservable.subscribe(onNext: { task in
+        addTVC.taskSubjectObservable.subscribe(onNext: { [unowned self] task in
             
             let priority = Priority(rawValue: self.prioritySegmentedControl.selectedSegmentIndex - 1)
             
@@ -51,7 +52,26 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             existingTaks.append(task)
             self.tasks.accept(existingTaks)
             
+            self.taskFiltering(by: priority)
+            
         }).disposed(by: disposeBag)
+    }
+    
+    @IBAction func priorityValueChanged(_ sender: Any) {
+        let priority = Priority(rawValue: self.prioritySegmentedControl.selectedSegmentIndex - 1)
+        taskFiltering(by: priority)
+    }
+    
+    private func taskFiltering(by priority: Priority?) {
+        if priority == nil {
+            self.filteredTasks = self.tasks.value
+        } else {
+            self.tasks.map { tasks in
+                return tasks.filter { $0.priority == priority!}
+            }.subscribe(onNext: { [weak self] tasks in
+                self!.filteredTasks = tasks
+            }).disposed(by: disposeBag)
+        }
     }
 
 }
