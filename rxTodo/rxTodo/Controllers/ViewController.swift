@@ -30,11 +30,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     // MARK - Table View Controllers
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return filteredTasks.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TaskTableViewCell",for: indexPath)
+        cell.textLabel?.text = self.filteredTasks[indexPath.row].title
         return  cell
     }
     
@@ -57,6 +58,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }).disposed(by: disposeBag)
     }
     
+    private func updateTableView () {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
     @IBAction func priorityValueChanged(_ sender: Any) {
         let priority = Priority(rawValue: self.prioritySegmentedControl.selectedSegmentIndex - 1)
         taskFiltering(by: priority)
@@ -65,11 +72,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private func taskFiltering(by priority: Priority?) {
         if priority == nil {
             self.filteredTasks = self.tasks.value
+            self.updateTableView()
         } else {
             self.tasks.map { tasks in
                 return tasks.filter { $0.priority == priority!}
             }.subscribe(onNext: { [weak self] tasks in
                 self!.filteredTasks = tasks
+                self!.updateTableView()
             }).disposed(by: disposeBag)
         }
     }
