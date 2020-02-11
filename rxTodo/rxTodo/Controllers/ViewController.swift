@@ -8,6 +8,7 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -16,6 +17,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //RxSwift
     let disposeBag = DisposeBag()
+    private var tasks = BehaviorRelay<[Task]>(value: [])
     
     
     override func viewDidLoad() {
@@ -42,7 +44,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         
         addTVC.taskSubjectObservable.subscribe(onNext: { task in
-                print(task)
+            
+            let priority = Priority(rawValue: self.prioritySegmentedControl.selectedSegmentIndex - 1)
+            
+            var existingTaks = self.tasks.value
+            existingTaks.append(task)
+            self.tasks.accept(existingTaks)
+            
         }).disposed(by: disposeBag)
     }
 
