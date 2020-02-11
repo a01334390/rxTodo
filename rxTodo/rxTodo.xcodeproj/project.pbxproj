@@ -56,15 +56,39 @@
 		BD3BEA1123F3474D0086EA43 /* rxTodo */ = {
 			isa = PBXGroup;
 			children = (
+				BD3BEA2823F348660086EA43 /* Views */,
+				BD3BEA2723F3485D0086EA43 /* Models */,
+				BD3BEA2623F3483F0086EA43 /* Controllers */,
 				BD3BEA1223F3474D0086EA43 /* AppDelegate.swift */,
 				BD3BEA1423F3474D0086EA43 /* SceneDelegate.swift */,
-				BD3BEA1623F3474D0086EA43 /* ViewController.swift */,
-				BD3BEA1823F3474D0086EA43 /* Main.storyboard */,
 				BD3BEA1B23F347500086EA43 /* Assets.xcassets */,
-				BD3BEA1D23F347500086EA43 /* LaunchScreen.storyboard */,
 				BD3BEA2023F347500086EA43 /* Info.plist */,
 			);
 			path = rxTodo;
+			sourceTree = "<group>";
+		};
+		BD3BEA2623F3483F0086EA43 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				BD3BEA1623F3474D0086EA43 /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		BD3BEA2723F3485D0086EA43 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BD3BEA2823F348660086EA43 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BD3BEA1D23F347500086EA43 /* LaunchScreen.storyboard */,
+				BD3BEA1823F3474D0086EA43 /* Main.storyboard */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
