@@ -10,6 +10,9 @@ import UIKit
 
 class AddTaskViewController: UIViewController {
     
+    @IBOutlet weak var taskPriority: UISegmentedControl!
+    @IBOutlet weak var saveTask: UIButton!
+    @IBOutlet weak var taskDescription: UITextField!
     
 
     override func viewDidLoad() {
@@ -17,6 +20,18 @@ class AddTaskViewController: UIViewController {
 
         // Do any additional setup after loading the view.
     }
+    
+    @IBAction func save(_ sender: Any) {
+        guard let priority = Priority(rawValue: self.taskPriority.selectedSegmentIndex),
+            let title = self.taskDescription.text else {
+                return
+        }
+        
+        let task = Task(title: title,
+                        priority: priority)
+        print(task)
+    }
+    
     
 
     /*

@@ -115,11 +115,19 @@
                                 <rect key="frame" x="190" y="202" width="34" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Save"/>
+                                <connections>
+                                    <action selector="save:" destination="q7p-Be-VV0" eventType="touchUpInside" id="bdW-9P-6cZ"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="z1A-Vh-gpi"/>
                     </view>
+                    <connections>
+                        <outlet property="saveTask" destination="gpT-Mv-DVz" id="dn1-pf-cTS"/>
+                        <outlet property="taskDescription" destination="VrK-yS-WMp" id="EhE-bq-ees"/>
+                        <outlet property="taskPriority" destination="hqd-c9-B7h" id="zua-1b-Lr2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ccE-Nd-gpC" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
